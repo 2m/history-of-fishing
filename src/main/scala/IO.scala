@@ -16,10 +16,13 @@
 
 package lt.dvim.hof
 
+import scala.concurrent.Future
 import scala.util.Failure
 import scala.util.Success
 
+import akka.Done
 import akka.actor.ActorSystem
+import akka.stream.scaladsl.RunnableGraph
 import akka.stream.scaladsl.Sink
 import akka.stream.scaladsl.Source
 
@@ -30,9 +33,17 @@ object IoAdapter {
     IO.async[T] { complete =>
       import sys.dispatcher
       source.runWith(Sink.head).onComplete {
-        case Success(value) => complete(Right(value))
-        case Failure(reason) =>
-          complete(Left(reason))
+        case Success(value)  => complete(Right(value))
+        case Failure(reason) => complete(Left(reason))
+      }
+    }
+
+  def fromRunnableGraph(graph: RunnableGraph[Future[Done]])(implicit sys: ActorSystem) =
+    IO.async[Unit] { complete =>
+      import sys.dispatcher
+      graph.run().onComplete {
+        case Success(_)      => complete(Right(()))
+        case Failure(reason) => complete(Left(reason))
       }
     }
 }

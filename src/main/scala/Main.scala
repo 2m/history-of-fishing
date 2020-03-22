@@ -19,7 +19,11 @@ package lt.dvim.hof
 import java.nio.file.NoSuchFileException
 
 import akka.actor.ActorSystem
+import akka.stream.scaladsl.Keep
+import akka.stream.scaladsl.Sink
+import akka.stream.scaladsl.Source
 
+import cats.Show
 import cats.effect.ExitCode
 import cats.effect.IO
 import cats.effect.IOApp
@@ -28,6 +32,8 @@ import com.monovore.decline.Command
 import fansi.Color.Green
 import fansi.Color.Red
 import fansi.Underlined.{On => Underline}
+
+import lt.dvim.hof.History.Entry
 
 object Main extends IOApp {
   def run(args: List[String]): IO[ExitCode] = {
@@ -82,5 +88,14 @@ object Main extends IOApp {
             ExitCode.Error
           }
       }
+
+    case Commands.Merge(files) =>
+      implicit val order = Ordering.by[Entry, Int](_.when)
+      val merged =
+        files
+          .foldLeft(Source.empty[Entry])((stream, file) => stream.mergeSorted(History.entries(file)))
+          .toMat(Sink.foreach(e => println(implicitly[Show[Entry]].show(e))))(Keep.right)
+
+      IoAdapter.fromRunnableGraph(merged).map(_ => ExitCode.Success)
   }
 }

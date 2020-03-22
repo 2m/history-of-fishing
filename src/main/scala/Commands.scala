@@ -16,22 +16,31 @@
 
 package lt.dvim.hof
 
+import cats.data.NonEmptyList
 import com.monovore.decline.Command
 import com.monovore.decline.Opts
 
 object Commands {
-  trait Command
+  sealed trait Command
 
   final case class Monotonic(historyFile: String) extends Command
+  final case class Merge(files: NonEmptyList[String]) extends Command
 
   val commands = {
     val monotonic =
       Command(
         name = "monotonic",
-        header = "verifies if the timestamps in history increase monotonically"
-      )((Opts.argument[String]("history-file")).map(Monotonic))
+        header = "verifies if the timestamps in the given history file increase monotonically"
+      )(Opts.argument[String]("history-file").map(Monotonic))
+
+    val merge =
+      Command(
+        name = "merge",
+        header = "merges given history files to one file with ordered entries"
+      )(Opts.arguments[String]("history-files").map(Merge))
 
     Opts
       .subcommand(monotonic)
+      .orElse(Opts.subcommand(merge))
   }
 }

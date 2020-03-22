@@ -26,6 +26,7 @@ import akka.stream.scaladsl.Framing
 import akka.stream.scaladsl.Source
 import akka.util.ByteString
 
+import cats.Show
 import monocle.macros.GenLens
 import monocle.std.option._
 
@@ -34,6 +35,14 @@ object History {
   case class Entry(cmd: String, when: Integer, paths: List[String])
   object Entry {
     def apply(s: State): Entry = Entry(s.cmd.get, s.when.get, s.paths)
+
+    implicit val entryRepr: Show[Entry] = Show.show { e =>
+      val lines = List(
+          s"- cmd: ${e.cmd}",
+          s"  when: ${e.when}"
+        ) ++ e.paths.map(p => s"    - $p")
+      lines.mkString(System.lineSeparator())
+    }
   }
 
   val Cmd = some[State] composeLens GenLens[State](_.cmd)
