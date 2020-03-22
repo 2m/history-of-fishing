@@ -40,7 +40,7 @@ object History {
       val lines = List(
           s"- cmd: ${e.cmd}",
           s"  when: ${e.when}"
-        ) ++ e.paths.map(p => s"    - $p")
+        ) ++ e.paths.headOption.map(_ => "  paths:") ++ e.paths.map(p => s"    - $p")
       lines.mkString(System.lineSeparator())
     }
   }
