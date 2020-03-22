@@ -45,16 +45,21 @@ object History {
     }
   }
 
+  val EndOfFile = "end-of-file"
+
   val Cmd = some[State] composeLens GenLens[State](_.cmd)
   val When = some[State] composeLens GenLens[State](_.when)
   val Paths = (some[State] composeLens GenLens[State](_.paths)).asTraversal
 
-  private def parser() = () => {
+  private def parser = () => {
     var state = Option.empty[State]
+
+    def stateToEntry = state.map(Entry.apply).toIndexedSeq.toIterable
+
     (s: ByteString) => {
       s.utf8String match {
         case s"- cmd: $cmd" =>
-          val entry = state.map(Entry.apply).toIndexedSeq.toIterable
+          val entry = stateToEntry
           state = Some(State())
           state = Cmd.set(Some(cmd))(state)
           entry
@@ -64,7 +69,8 @@ object History {
         case s"    - $path" =>
           state = Paths.modify(_ :+ path)(state)
           Iterable.empty
-        case _ => Iterable.empty
+        case EndOfFile => stateToEntry
+        case _         => Iterable.empty
       }
     }
   }
@@ -75,7 +81,8 @@ object History {
     FileIO
       .fromPath(JavaPaths.get(path))
       .via(Framing.delimiter(ByteString(System.lineSeparator()), MaxLineLength))
-      .statefulMapConcat(parser())
+      .concat(Source.single(ByteString(EndOfFile)))
+      .statefulMapConcat(parser)
       .mapMaterializedValue(_ => NotUsed)
   }
 }
