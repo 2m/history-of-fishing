@@ -21,3 +21,12 @@ History of Fishing (or `hof`) is a CLI application that works with the [Fish She
 
 [asciicast]:       https://asciinema.org/a/NMsCJaq3yd9fJuxnWoIP9cRHu
 [asciicast-badge]: https://asciinema.org/a/NMsCJaq3yd9fJuxnWoIP9cRHu.svg
+
+## Acknowledgments
+
+The usage of [decline][] library and setting up [native-image] build was inspired by a very informative [@note][] blogpost [Writing native CLI applications in Scala with GraalVM][].
+
+[decline]:      https://github.com/bkirwi/decline
+[native-image]: https://www.graalvm.org/docs/reference-manual/native-image/
+[@note]:        https://github.com/note
+[Writing native CLI applications in Scala with GraalVM]: https://msitko.pl/blog/2020/03/10/writing-native-cli-applications-in-scala-with-graalvm.html
