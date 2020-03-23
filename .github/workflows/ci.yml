@@ -48,6 +48,7 @@ jobs:
           graalvm-version: "20.0.0"
           java-version: "java11"
       - run: gu install native-image
+      - uses: actions/checkout@v1
       - uses: olafurpg/setup-scala@v7
         with:
           java-version: adopt@1.11
