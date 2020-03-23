@@ -38,3 +38,17 @@ jobs:
         with:
           java-version: adopt@1.11
       - run: sbt test
+
+  native-image:
+    name: Build native image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: rinx/setup-graalvm-ce@v0.0.1
+        with:
+          graalvm-version: "20.0.0"
+          java-version: "java11"
+      - run: gu install native-image
+      - uses: olafurpg/setup-scala@v7
+        with:
+          java-version: adopt@1.11
+      - run: sbt graalvm-native-image:packageBin
