@@ -75,7 +75,7 @@ object Main extends IOApp {
             else (false, entry.when)
         }
         .map(_._1)
-        .fold((true, 0)) { case ((monotonic, count), lower) => (monotonic && lower, count + 1) }
+        .fold((true, -1)) { case ((monotonic, count), lower) => (monotonic && lower, count + 1) }
 
       IoAdapter.fromSourceHead(count).map {
         case (monotonic, recordCount) =>
