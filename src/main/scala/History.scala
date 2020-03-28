@@ -16,7 +16,7 @@
 
 package lt.dvim.hof
 
-import java.nio.file.{Paths => JavaPaths}
+import java.nio.file.Path
 
 import scala.collection.immutable.Iterable
 
@@ -41,7 +41,7 @@ object History {
           s"- cmd: ${e.cmd}",
           s"  when: ${e.when}"
         ) ++ e.paths.headOption.map(_ => "  paths:") ++ e.paths.map(p => s"    - $p")
-      lines.mkString(System.lineSeparator())
+      lines.mkString("", System.lineSeparator(), System.lineSeparator())
     }
   }
 
@@ -75,22 +75,27 @@ object History {
     }
   }
 
-  def entries(path: String): Source[Entry, NotUsed] = {
+  def entries(path: Path): Source[Entry, NotUsed] = {
     val MaxLineLength = 1024 * 8
 
     FileIO
-      .fromPath(JavaPaths.get(path))
+      .fromPath(path)
       .via(Framing.delimiter(ByteString(System.lineSeparator()), MaxLineLength))
       .concat(Source.single(ByteString(EndOfFile)))
       .statefulMapConcat(parser)
       .mapMaterializedValue(_ => NotUsed)
   }
 
-  def merge(sources: List[Source[Entry, NotUsed]]): Source[Entry, NotUsed] = {
-    implicit val order: Ordering[Entry] = Ordering.by(_.when)
+  def merge(sources: List[Source[Entry, NotUsed]]): Source[Entry, NotUsed] =
+    merge(Source(sources))
+
+  def merge(sources: Source[Source[Entry, NotUsed], NotUsed]): Source[Entry, NotUsed] = {
+    implicit val order: Ordering[Entry] = Ordering.by(e => (e.when, e.cmd))
     val SlidingWindowPadding = Entry("", 0, List())
+
     sources
-      .foldLeft(Source.single(SlidingWindowPadding))((stream, source) => stream.mergeSorted(source))
+      .fold(Source.single(SlidingWindowPadding))((stream, source) => stream.mergeSorted(source))
+      .flatMapConcat(identity)
       .sliding(n = 2, step = 1)
       .mapConcat {
         case prev +: current +: _ =>

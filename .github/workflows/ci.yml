@@ -18,10 +18,10 @@ jobs:
       - uses: olafurpg/setup-scala@v7
         with:
           java-version: adopt@1.11
-      - run: sbt scalafmtCheck
+      - run: sbt scalafmtCheckAll
       - run: sbt scalafmtSbtCheck
-      - run: sbt "scalafix --check"
-      - run: sbt headerCheck
+      - run: sbt ";scalafix --check ;Test/scalafix --check"
+      - run: sbt headerCheckAll
       - name: yaml-lint
         uses: ibiqlik/action-yamllint@v0.0.2
         with:

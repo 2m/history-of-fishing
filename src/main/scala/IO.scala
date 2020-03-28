@@ -20,7 +20,6 @@ import scala.concurrent.Future
 import scala.util.Failure
 import scala.util.Success
 
-import akka.Done
 import akka.actor.ActorSystem
 import akka.stream.scaladsl.RunnableGraph
 import akka.stream.scaladsl.Sink
@@ -38,7 +37,7 @@ object IoAdapter {
       }
     }
 
-  def fromRunnableGraph(graph: RunnableGraph[Future[Done]])(implicit sys: ActorSystem) =
+  def fromRunnableGraph(graph: RunnableGraph[Future[_]])(implicit sys: ActorSystem) =
     IO.async[Unit] { complete =>
       import sys.dispatcher
       graph.run().onComplete {

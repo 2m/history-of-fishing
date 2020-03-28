@@ -16,11 +16,16 @@
 
 package lt.dvim.hof
 
+import java.nio.file.Files
 import java.nio.file.NoSuchFileException
 
 import akka.actor.ActorSystem
+import akka.stream.scaladsl.FileIO
 import akka.stream.scaladsl.Keep
 import akka.stream.scaladsl.Sink
+import akka.stream.scaladsl.Source
+import akka.stream.scaladsl.StreamConverters
+import akka.util.ByteString
 
 import cats.Show
 import cats.effect.ExitCode
@@ -91,9 +96,31 @@ object Main extends IOApp {
     case Commands.Merge(files) =>
       val merged = History
         .merge(files.toList.map(History.entries))
-        .toMat(Sink.foreach(e => println(implicitly[Show[Entry]].show(e))))(Keep.right)
+        .toMat(Sink.foreach(e => print(implicitly[Show[Entry]].show(e))))(Keep.right)
 
       IoAdapter.fromRunnableGraph(merged).map(_ => ExitCode.Success)
+
+    case Commands.ResolveConflicts(directory) =>
+      val OriginalHistory = directory.resolve("fish_history")
+      val NewHistory = directory.resolve("fish_history.new")
+
+      val conflictFiles = StreamConverters.fromJavaStream(() =>
+        Files.find(directory, 1, (path, _) => path.toString.contains("fish_history.sync-conflict-"))
+      )
+
+      val resolver = History
+        .merge(
+          Source
+            .single(OriginalHistory)
+            .concat(conflictFiles.alsoTo(Sink.foreach(f => println(s"Resolving from ${Green(f.toString)}"))))
+            .map(History.entries)
+        )
+        .map(implicitly[Show[Entry]].show(_))
+        .map(ByteString.apply)
+        .toMat(FileIO.toPath(NewHistory))(Keep.right)
+
+      IoAdapter.fromRunnableGraph(resolver) *>
+        IO.pure(ExitCode.Success)
 
     case Commands.Version =>
       IO(println(BuildInfo.version)) *>
