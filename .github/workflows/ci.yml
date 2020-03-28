@@ -53,4 +53,4 @@ jobs:
         with:
           java-version: adopt@1.11
       - run: sbt graalvm-native-image:packageBin
-      - run: target/graalvm-native-image/hof || true
+      - run: target/graalvm-native-image/hof version

@@ -94,5 +94,9 @@ object Main extends IOApp {
         .toMat(Sink.foreach(e => println(implicitly[Show[Entry]].show(e))))(Keep.right)
 
       IoAdapter.fromRunnableGraph(merged).map(_ => ExitCode.Success)
+
+    case Commands.Version =>
+      IO(println(BuildInfo.version)) *>
+          IO.pure(ExitCode.Success)
   }
 }

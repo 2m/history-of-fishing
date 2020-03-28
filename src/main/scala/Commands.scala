@@ -25,6 +25,7 @@ object Commands {
 
   final case class Monotonic(historyFile: String) extends Command
   final case class Merge(files: NonEmptyList[String]) extends Command
+  final case object Version extends Command
 
   val commands = {
     val monotonic =
@@ -39,8 +40,15 @@ object Commands {
         header = "merges given history files to one file with ordered entries"
       )(Opts.arguments[String]("history-files").map(Merge))
 
+    val version =
+      Command(
+        name = "version",
+        header = "prints current version"
+      )(Opts.unit.map(_ => Version))
+
     Opts
       .subcommand(monotonic)
       .orElse(Opts.subcommand(merge))
+      .orElse(Opts.subcommand(version))
   }
 }

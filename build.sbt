@@ -34,5 +34,9 @@ startYear := Some(2020)
 organizationName := "History of Fishing"
 licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt"))
 
+buildInfoKeys := Seq[BuildInfoKey](version)
+buildInfoPackage := "lt.dvim.hof"
+
 enablePlugins(JavaAppPackaging)
 enablePlugins(GraalVMNativeImagePlugin)
+enablePlugins(BuildInfoPlugin)
