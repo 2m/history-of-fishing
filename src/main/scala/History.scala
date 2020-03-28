@@ -86,6 +86,16 @@ object History {
       .mapMaterializedValue(_ => NotUsed)
   }
 
+  def monotonic(entries: Source[Entry, NotUsed]): Source[(Boolean, Int), NotUsed] =
+    entries
+      .scan((true, 0)) {
+        case ((_, previous), entry) =>
+          if (previous < entry.when) (true, entry.when)
+          else (false, entry.when)
+      }
+      .map(_._1)
+      .fold((true, -1)) { case ((monotonic, count), lower) => (monotonic && lower, count + 1) }
+
   def merge(sources: List[Source[Entry, NotUsed]]): Source[Entry, NotUsed] =
     merge(Source(sources))
 

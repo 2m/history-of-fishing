@@ -71,24 +71,16 @@ object Main extends IOApp {
 
   private def onCommand(c: Commands.Command)(implicit sys: ActorSystem): IO[ExitCode] = c match {
     case Commands.Monotonic(file) =>
-      val count = History
-        .entries(file)
-        .scan((true, 0)) {
-          case ((_, previous), entry) =>
-            if (previous <= entry.when) (true, entry.when)
-            else (false, entry.when)
-        }
-        .map(_._1)
-        .fold((true, -1)) { case ((monotonic, count), lower) => (monotonic && lower, count + 1) }
+      val monotonicAndCount = History.monotonic(History.entries(file))
 
-      IoAdapter.fromSourceHead(count).map {
+      IoAdapter.fromSourceHead(monotonicAndCount).map {
         case (monotonic, recordCount) =>
           println(s"Scanned total of ${Green(recordCount.toString)} history records.")
           if (monotonic) {
-            println(s"History was ${Green("monotonic")}.")
+            println(s"History was strictly ${Green("monotonic")}.")
             ExitCode.Success
           } else {
-            println(s"History was ${Red("not")} monotonic.")
+            println(s"History was ${Red("not")} strictly monotonic.")
             ExitCode.Error
           }
       }

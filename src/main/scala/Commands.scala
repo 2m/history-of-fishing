@@ -37,7 +37,7 @@ object Commands {
     val monotonic =
       Command(
         name = "monotonic",
-        header = "Verifies if the timestamps in the given history file increase monotonically."
+        header = "Verifies if the timestamps in the given history file increase strictly monotonically."
       )(Opts.argument[Path]("history-file").map(Monotonic))
 
     val merge =

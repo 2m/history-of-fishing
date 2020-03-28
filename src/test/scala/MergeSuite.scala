@@ -16,19 +16,15 @@
 
 package lt.dvim.hof
 
-import lt.dvim.hof.History.Entry
-import akka.stream.scaladsl.Source
-import akka.stream.scaladsl.Sink
-import akka.actor.ActorSystem
-import scala.concurrent.duration._
 import scala.concurrent.Await
+import scala.concurrent.duration._
 
-class MergeSuite extends munit.FunSuite {
-  val withActorSystem = new FunFixture[ActorSystem](
-    setup = { _ => ActorSystem() },
-    teardown = { sys => Await.ready(sys.terminate(), 5.seconds); () }
-  )
+import akka.stream.scaladsl.Sink
+import akka.stream.scaladsl.Source
 
+import lt.dvim.hof.History.Entry
+
+class MergeSuite extends munit.FunSuite with Fixtures {
   def whenToEntry(when: Int) = Entry(s"cmd_$when", when, List())
 
   def checkMergeByWhen(
