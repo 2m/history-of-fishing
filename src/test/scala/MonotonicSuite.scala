@@ -49,5 +49,5 @@ class MonotonicSuite extends munit.FunSuite with Fixtures {
 
   checkMonotonic("allow strictly monotonic", true, 1, 2, 3)
   checkMonotonic("fail on monotonic", false, 1, 1, 2)
-  checkMonotonic("fail on non monotonic", false, 1, 1, 2)
+  checkMonotonic("fail on non monotonic", false, 3, 1, 2)
 }
