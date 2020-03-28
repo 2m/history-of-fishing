@@ -22,60 +22,48 @@ import scala.concurrent.duration._
 import akka.stream.scaladsl.Sink
 import akka.stream.scaladsl.Source
 
-import lt.dvim.hof.History.Entry
+import munit.FunSuite
+import munit.TestOptions
 
-class MergeSuite extends munit.FunSuite with Fixtures {
-  def whenToEntry(when: Int) = Entry(s"cmd_$when", when, List())
-
-  def checkMergeByWhen(
-      name: String,
-      obtained: List[List[Int]],
-      expected: List[Int]
-  )(implicit loc: munit.Location): Unit =
-    checkMergeEntries(name, obtained.map(_.map(whenToEntry)), expected.map(whenToEntry))
-
-  def checkMergeByWhenCmd(
-      name: String,
-      obtained: List[List[String]],
-      expected: List[String]
-  )(implicit loc: munit.Location): Unit = {
-    def whenCmdToEntry(cmd: String) = cmd match {
-      case s"${when}_$cmd" => Entry(cmd, when.toInt, List())
-    }
-    checkMergeEntries(name, obtained.map(_.map(whenCmdToEntry)), expected.map(whenCmdToEntry))
-  }
-
-  def checkMergeEntries(
-      name: String,
-      obtained: List[List[Entry]],
-      expected: List[Entry]
+class MergeSuite extends FunSuite with Fixtures {
+  def checkMerge[T: ToEntry](
+      name: TestOptions,
+      expected: List[T],
+      entries: List[T]*
   )(implicit loc: munit.Location): Unit =
     withActorSystem.test(name) { implicit sys =>
       import sys.dispatcher
       val result = History
-        .merge(obtained.map(Source.apply))
+        .merge(entries.toList.map(_.map(_.toEntry)).map(Source.apply))
         .runWith(Sink.seq)
         .map(seq =>
           assertEquals(
             seq,
-            expected
+            expected.map(_.toEntry)
           )
         )
       Await.result(result, 5.seconds)
     }
 
-  checkMergeByWhen("sorts entries", List(List(1, 3), List(2)), List(1, 2, 3))
+  checkMerge("sorts entries", List(1, 2, 3), List(1, 3), List(2))
 
   {
     val expected = (1 to 100).toList
-    checkMergeByWhen("handles large number of streams", expected.map(List(_)), expected)
+    checkMerge("handles large number of streams", expected, expected.map(List(_)): _*)
   }
 
-  checkMergeByWhen("deduplicates entries by timestamp", List(List(1, 2), List(1)), List(1, 2))
+  checkMerge("deduplicates entries by timestamp", List(1, 2), List(1, 2), List(1))
 
-  checkMergeByWhenCmd(
-    "deduplicates entries by command",
-    List(List("1_c", "1_b", "1_a"), List("1_c", "1_b", "1_a")),
-    List("1_a", "1_b", "1_c")
+  checkMerge(
+    "adjusts timestamps to strictly monotonic".ignore,
+    List("1_a", "2_b", "3_c"),
+    List("1_a", "1_b", "2_c")
+  )
+
+  checkMerge(
+    "deduplicates entries by command".ignore,
+    List("1_a", "1_b", "1_c"),
+    List("1_c", "1_b", "1_a"),
+    List("1_c", "1_b", "1_a")
   )
 }

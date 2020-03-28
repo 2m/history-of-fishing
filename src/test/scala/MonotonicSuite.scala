@@ -22,20 +22,19 @@ import scala.concurrent.duration._
 import akka.stream.scaladsl.Sink
 import akka.stream.scaladsl.Source
 
-import lt.dvim.hof.History.Entry
+import munit.FunSuite
+import munit.TestOptions
 
-class MonotonicSuite extends munit.FunSuite with Fixtures {
-  implicit def intToEntry(when: Int) = Entry("cmd", when, List())
-
-  def checkMonotonic(
-      name: String,
+class MonotonicSuite extends FunSuite with Fixtures {
+  def checkMonotonic[T: ToEntry](
+      name: TestOptions,
       expected: Boolean,
-      entries: Entry*
+      entries: T*
   )(implicit loc: munit.Location): Unit =
     withActorSystem.test(name) { implicit sys =>
       import sys.dispatcher
       val result = History
-        .monotonic(Source(entries))
+        .monotonic(Source(entries.map(_.toEntry)))
         .runWith(Sink.head)
         .map {
           case (monotonic, _) =>

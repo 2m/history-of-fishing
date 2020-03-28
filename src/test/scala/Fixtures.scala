@@ -20,10 +20,29 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 
 import akka.actor.ActorSystem
+import lt.dvim.hof.History.Entry
 
 trait Fixtures { self: munit.FunSuite =>
   val withActorSystem = new FunFixture[ActorSystem](
     setup = { _ => ActorSystem() },
     teardown = { sys => Await.ready(sys.terminate(), 5.seconds); () }
   )
+
+  trait ToEntry[T] {
+    def toEntry(t: T): Entry
+  }
+
+  implicit object IntToEntry extends ToEntry[Int] {
+    def toEntry(t: Int): Entry = Entry("cmd", t, List())
+  }
+
+  implicit object StringToEntry extends ToEntry[String] {
+    def toEntry(t: String): Entry = t match {
+      case s"${when}_$cmd" => Entry(cmd, when.toInt, List())
+    }
+  }
+
+  implicit class EntryOps[T: ToEntry](t: T) {
+    def toEntry = implicitly[ToEntry[T]].toEntry(t)
+  }
 }
