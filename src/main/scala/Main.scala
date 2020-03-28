@@ -21,7 +21,6 @@ import java.nio.file.NoSuchFileException
 import akka.actor.ActorSystem
 import akka.stream.scaladsl.Keep
 import akka.stream.scaladsl.Sink
-import akka.stream.scaladsl.Source
 
 import cats.Show
 import cats.effect.ExitCode
@@ -90,11 +89,9 @@ object Main extends IOApp {
       }
 
     case Commands.Merge(files) =>
-      implicit val order = Ordering.by[Entry, Int](_.when)
-      val merged =
-        files
-          .foldLeft(Source.empty[Entry])((stream, file) => stream.mergeSorted(History.entries(file)))
-          .toMat(Sink.foreach(e => println(implicitly[Show[Entry]].show(e))))(Keep.right)
+      val merged = History
+        .merge(files.toList.map(History.entries))
+        .toMat(Sink.foreach(e => println(implicitly[Show[Entry]].show(e))))(Keep.right)
 
       IoAdapter.fromRunnableGraph(merged).map(_ => ExitCode.Success)
   }

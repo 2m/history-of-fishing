@@ -85,4 +85,17 @@ object History {
       .statefulMapConcat(parser)
       .mapMaterializedValue(_ => NotUsed)
   }
+
+  def merge(sources: List[Source[Entry, NotUsed]]): Source[Entry, NotUsed] = {
+    implicit val order: Ordering[Entry] = Ordering.by(_.when)
+    val SlidingWindowPadding = Entry("", 0, List())
+    sources
+      .foldLeft(Source.single(SlidingWindowPadding))((stream, source) => stream.mergeSorted(source))
+      .sliding(n = 2, step = 1)
+      .mapConcat {
+        case prev +: current +: _ =>
+          if (prev == current) Nil
+          else List(current)
+      }
+  }
 }
