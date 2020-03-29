@@ -20,6 +20,7 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 
 import akka.actor.ActorSystem
+
 import lt.dvim.hof.History.Entry
 
 trait Fixtures { self: munit.FunSuite =>
