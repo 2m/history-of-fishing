@@ -25,7 +25,7 @@ import akka.stream.scaladsl.Source
 import munit.FunSuite
 import munit.TestOptions
 
-class MonotonicSuite extends FunSuite with Fixtures {
+class CheckMonotonicSuite extends FunSuite with Fixtures {
   def checkMonotonic[T: ToEntry](
       name: TestOptions,
       expected: Boolean,
@@ -34,7 +34,7 @@ class MonotonicSuite extends FunSuite with Fixtures {
     withActorSystem.test(name) { implicit sys =>
       import sys.dispatcher
       val result = History
-        .monotonic(Source(entries.map(_.toEntry)))
+        .checkMonotonic(Source(entries.map(_.toEntry)))
         .runWith(Sink.head)
         .map {
           case (monotonic, _) =>

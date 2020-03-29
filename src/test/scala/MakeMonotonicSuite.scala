@@ -25,39 +25,35 @@ import akka.stream.scaladsl.Source
 import munit.FunSuite
 import munit.TestOptions
 
-class MergeSuite extends FunSuite with Fixtures {
-  def checkMerge[T: ToEntry](
+class MakeMonotonicSuite extends FunSuite with Fixtures {
+  def checkMakeMonotonic[T: ToEntry](
       name: TestOptions,
       expected: List[T],
-      entries: List[T]*
+      entries: List[T]
   )(implicit loc: munit.Location): Unit =
     withActorSystem.test(name) { implicit sys =>
       import sys.dispatcher
       val result = History
-        .merge(entries.toList.map(_.map(_.toEntry)).map(Source.apply))
+        .makeStrictlyMonotonic(Source(entries.map(_.toEntry)))
         .runWith(Sink.seq)
-        .map(seq =>
+        .map { seq =>
           assertEquals(
             seq,
             expected.map(_.toEntry)
           )
-        )
+        }
       Await.result(result, 5.seconds)
     }
 
-  checkMerge("sorts entries", List(1, 2, 3), List(1, 3), List(2))
+  checkMakeMonotonic(
+    "when two in a row have the same timestamp",
+    List("1_a", "2_b", "3_c"),
+    List("1_a", "1_b", "2_c")
+  )
 
-  {
-    val expected = (1 to 100).toList
-    checkMerge("handles large number of streams", expected, expected.map(List(_)): _*)
-  }
-
-  checkMerge("deduplicates entries by timestamp", List(1, 2), List(1, 2), List(1))
-
-  checkMerge(
-    "deduplicates entries by command".ignore,
-    List("1_a", "1_b", "1_c"),
-    List("1_c", "1_b", "1_a"),
-    List("1_c", "1_b", "1_a")
+  checkMakeMonotonic(
+    "when all have the same timestamp",
+    List("1_a", "2_b", "3_c", "4_d", "5_e"),
+    List("1_a", "1_b", "1_c", "1_d", "1_e")
   )
 }

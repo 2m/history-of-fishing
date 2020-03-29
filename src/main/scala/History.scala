@@ -45,6 +45,7 @@ object History {
     }
   }
 
+  val Padding = Entry("", 0, List())
   val EndOfFile = "end-of-file"
 
   val Cmd = some[State] composeLens GenLens[State](_.cmd)
@@ -86,7 +87,7 @@ object History {
       .mapMaterializedValue(_ => NotUsed)
   }
 
-  def monotonic(entries: Source[Entry, NotUsed]): Source[(Boolean, Int), NotUsed] =
+  def checkMonotonic(entries: Source[Entry, NotUsed]): Source[(Boolean, Int), NotUsed] =
     entries
       .scan((true, 0)) {
         case ((_, previous), entry) =>
@@ -96,15 +97,24 @@ object History {
       .map(_._1)
       .fold((true, -1)) { case ((monotonic, count), lower) => (monotonic && lower, count + 1) }
 
+  def makeStrictlyMonotonic(entries: Source[Entry, NotUsed]): Source[Entry, NotUsed] = {
+    val When = GenLens[Entry](_.when)
+    entries
+      .scan(Padding) { (prev, curr) =>
+        if (prev.when >= curr.when) When.set(prev.when + 1)(curr)
+        else curr
+      }
+      .filterNot(_ == Padding)
+  }
+
   def merge(sources: List[Source[Entry, NotUsed]]): Source[Entry, NotUsed] =
     merge(Source(sources))
 
   def merge(sources: Source[Source[Entry, NotUsed], NotUsed]): Source[Entry, NotUsed] = {
     implicit val order: Ordering[Entry] = Ordering.by(e => (e.when, e.cmd))
-    val SlidingWindowPadding = Entry("", 0, List())
 
     sources
-      .fold(Source.single(SlidingWindowPadding))((stream, source) => stream.mergeSorted(source))
+      .fold(Source.single(Padding))((stream, source) => stream.mergeSorted(source))
       .flatMapConcat(identity)
       .sliding(n = 2, step = 1)
       .mapConcat {

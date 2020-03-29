@@ -71,7 +71,7 @@ object Main extends IOApp {
 
   private def onCommand(c: Commands.Command)(implicit sys: ActorSystem): IO[ExitCode] = c match {
     case Commands.Monotonic(file) =>
-      val monotonicAndCount = History.monotonic(History.entries(file))
+      val monotonicAndCount = History.checkMonotonic(History.entries(file))
 
       IoAdapter.fromSourceHead(monotonicAndCount).map {
         case (monotonic, recordCount) =>
