@@ -1,7 +1,7 @@
 addSbtPlugin("com.dwijnand"              % "sbt-dynver"          % "4.0.0")
 addSbtPlugin("org.scalameta"             % "sbt-scalafmt"        % "2.3.2")
 addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat"        % "0.1.11")
-addSbtPlugin("ch.epfl.scala"             % "sbt-scalafix"        % "0.9.12")
+addSbtPlugin("ch.epfl.scala"             % "sbt-scalafix"        % "0.9.13")
 addSbtPlugin("de.heikoseeberger"         % "sbt-header"          % "5.5.0")
 addSbtPlugin("com.typesafe.sbt"          % "sbt-native-packager" % "1.7.0")
 addSbtPlugin("com.eed3si9n"              % "sbt-buildinfo"       % "0.9.0")
