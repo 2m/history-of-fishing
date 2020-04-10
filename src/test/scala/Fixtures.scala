@@ -16,17 +16,16 @@
 
 package lt.dvim.hof
 
-import scala.concurrent.Await
-import scala.concurrent.duration._
+import scala.concurrent.Future
 
 import akka.actor.ActorSystem
 
 import lt.dvim.hof.History.Entry
 
 trait Fixtures { self: munit.FunSuite =>
-  val withActorSystem = new FunFixture[ActorSystem](
-    setup = { _ => ActorSystem() },
-    teardown = { sys => Await.ready(sys.terminate(), 5.seconds); () }
+  val withActorSystem = FunFixture.async[ActorSystem](
+    setup = { _ => Future.successful(ActorSystem()) },
+    teardown = { sys => sys.terminate().map(_ => ())(munitExecutionContext) }
   )
 
   trait ToEntry[T] {
