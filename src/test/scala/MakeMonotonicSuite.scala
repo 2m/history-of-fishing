@@ -16,9 +16,6 @@
 
 package lt.dvim.hof
 
-import scala.concurrent.Await
-import scala.concurrent.duration._
-
 import akka.stream.scaladsl.Sink
 import akka.stream.scaladsl.Source
 
@@ -33,7 +30,7 @@ class MakeMonotonicSuite extends FunSuite with Fixtures {
   )(implicit loc: munit.Location): Unit =
     withActorSystem.test(name) { implicit sys =>
       import sys.dispatcher
-      val result = History
+      History
         .makeStrictlyMonotonic(Source(entries.map(_.toEntry)))
         .runWith(Sink.seq)
         .map { seq =>
@@ -42,7 +39,6 @@ class MakeMonotonicSuite extends FunSuite with Fixtures {
             expected.map(_.toEntry)
           )
         }
-      Await.result(result, 5.seconds)
     }
 
   checkMakeMonotonic(
