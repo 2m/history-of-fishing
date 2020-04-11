@@ -52,4 +52,10 @@ class MakeMonotonicSuite extends FunSuite with Fixtures {
     List("1_a", "2_b", "3_c", "4_d", "5_e"),
     List("1_a", "1_b", "1_c", "1_d", "1_e")
   )
+
+  checkMakeMonotonic(
+    "when increasing after a couple equal ones",
+    List("1_a", "2_b", "3_c", "4_d", "5_e"),
+    List("1_a", "1_b", "2_c", "3_d", "4_e")
+  )
 }
