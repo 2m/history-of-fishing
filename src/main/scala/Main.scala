@@ -31,7 +31,6 @@ import cats.Show
 import cats.effect.ExitCode
 import cats.effect.IO
 import cats.effect.IOApp
-import cats.syntax.all._
 import com.monovore.decline.Command
 import fansi.Color.Green
 import fansi.Color.Red
