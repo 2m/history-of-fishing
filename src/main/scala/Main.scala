@@ -68,53 +68,56 @@ object Main extends IOApp {
     }
   }
 
-  private def onCommand(c: Commands.Command)(implicit sys: ActorSystem): IO[ExitCode] = c match {
-    case Commands.Monotonic(file) =>
-      val monotonicAndCount = History.checkMonotonic(History.entries(file))
+  private def onCommand(c: Commands.Command)(implicit sys: ActorSystem): IO[ExitCode] =
+    c match {
+      case Commands.Monotonic(file) =>
+        val monotonicAndCount = History.checkMonotonic(History.entries(file))
 
-      IoAdapter.fromSourceHead(monotonicAndCount).map {
-        case (monotonic, recordCount) =>
-          println(s"Scanned total of ${Green(recordCount.toString)} history records.")
-          if (monotonic) {
-            println(s"History was strictly ${Green("monotonic")}.")
-            ExitCode.Success
-          } else {
-            println(s"History was ${Red("not")} strictly monotonic.")
-            ExitCode.Error
-          }
-      }
+        IoAdapter.fromSourceHead(monotonicAndCount).map {
+          case (monotonic, recordCount) =>
+            println(s"Scanned total of ${Green(recordCount.toString)} history records.")
+            if (monotonic) {
+              println(s"History was strictly ${Green("monotonic")}.")
+              ExitCode.Success
+            } else {
+              println(s"History was ${Red("not")} strictly monotonic.")
+              ExitCode.Error
+            }
+        }
 
-    case Commands.Merge(files) =>
-      val merged = History
-        .merge(files.toList.map(History.entries))
-        .toMat(Sink.foreach(e => print(implicitly[Show[Entry]].show(e))))(Keep.right)
+      case Commands.Merge(files) =>
+        val merged = History
+          .merge(files.toList.map(History.entries))
+          .toMat(Sink.foreach(e => print(implicitly[Show[Entry]].show(e))))(Keep.right)
 
-      IoAdapter.fromRunnableGraph(merged).map(_ => ExitCode.Success)
+        IoAdapter.fromRunnableGraph(merged).map(_ => ExitCode.Success)
 
-    case Commands.ResolveConflicts(directory) =>
-      val OriginalHistory = directory.resolve("fish_history")
-      val NewHistory = directory.resolve("fish_history.new")
+      case Commands.ResolveConflicts(directory) =>
+        val OriginalHistory = directory.resolve("fish_history")
+        val NewHistory = directory.resolve("fish_history.new")
 
-      val conflictFiles = StreamConverters.fromJavaStream(() =>
-        Files.find(directory, 1, (path, _) => path.toString.contains("fish_history.sync-conflict-"))
-      )
-
-      val resolver = History
-        .merge(
-          Source
-            .single(OriginalHistory)
-            .concat(conflictFiles.alsoTo(Sink.foreach(f => println(s"Resolving from ${Green(f.toString)}"))))
-            .map(History.entries)
+        val conflictFiles = StreamConverters.fromJavaStream(() =>
+          Files.find(directory, 1, (path, _) => path.toString.contains("fish_history.sync-conflict-"))
         )
-        .map(implicitly[Show[Entry]].show(_))
-        .map(ByteString.apply)
-        .toMat(FileIO.toPath(NewHistory))(Keep.right)
 
-      IoAdapter.fromRunnableGraph(resolver) *>
-        IO.pure(ExitCode.Success)
+        val resolver = History
+          .merge(
+            Source
+              .single(OriginalHistory)
+              .concat(
+                conflictFiles.alsoTo(Sink.foreach(f => println(s"Resolving from ${Green(f.toString)}")))
+              )
+              .map(History.entries)
+          )
+          .map(implicitly[Show[Entry]].show(_))
+          .map(ByteString.apply)
+          .toMat(FileIO.toPath(NewHistory))(Keep.right)
 
-    case Commands.Version =>
-      IO(println(BuildInfo.version)) *>
+        IoAdapter.fromRunnableGraph(resolver) *>
           IO.pure(ExitCode.Success)
-  }
+
+      case Commands.Version =>
+        IO(println(BuildInfo.version)) *>
+            IO.pure(ExitCode.Success)
+    }
 }

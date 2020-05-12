@@ -37,9 +37,10 @@ trait Fixtures { self: munit.FunSuite =>
   }
 
   implicit object StringToEntry extends ToEntry[String] {
-    def toEntry(t: String): Entry = t match {
-      case s"${when}_$cmd" => Entry(cmd, when.toInt, List())
-    }
+    def toEntry(t: String): Entry =
+      t match {
+        case s"${when}_$cmd" => Entry(cmd, when.toInt, List())
+      }
   }
 
   implicit class EntryOps[T: ToEntry](t: T) {
