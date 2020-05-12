@@ -52,29 +52,29 @@ object History {
   val When = some[State] composeLens GenLens[State](_.when)
   val Paths = (some[State] composeLens GenLens[State](_.paths)).asTraversal
 
-  private def parser = () => {
-    var state = Option.empty[State]
+  private def parser =
+    () => {
+      var state = Option.empty[State]
 
-    def stateToEntry = state.map(Entry.apply).toIndexedSeq.toIterable
+      def stateToEntry = state.map(Entry.apply).toIndexedSeq.toIterable
 
-    (s: ByteString) => {
-      s.utf8String match {
-        case s"- cmd: $cmd" =>
-          val entry = stateToEntry
-          state = Some(State())
-          state = Cmd.set(Some(cmd))(state)
-          entry
-        case s"  when: $when" =>
-          state = When.set(Some(when.toInt))(state)
-          Iterable.empty
-        case s"    - $path" =>
-          state = Paths.modify(_ :+ path)(state)
-          Iterable.empty
-        case EndOfFile => stateToEntry
-        case _         => Iterable.empty
-      }
+      (s: ByteString) =>
+        s.utf8String match {
+          case s"- cmd: $cmd" =>
+            val entry = stateToEntry
+            state = Some(State())
+            state = Cmd.set(Some(cmd))(state)
+            entry
+          case s"  when: $when" =>
+            state = When.set(Some(when.toInt))(state)
+            Iterable.empty
+          case s"    - $path" =>
+            state = Paths.modify(_ :+ path)(state)
+            Iterable.empty
+          case EndOfFile => stateToEntry
+          case _         => Iterable.empty
+        }
     }
-  }
 
   def entries(path: Path): Source[Entry, NotUsed] = {
     val MaxLineLength = 1024 * 8
