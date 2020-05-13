@@ -18,7 +18,7 @@ libraryDependencies ++= Seq(
   "com.monovore"               %% "decline"           % "1.2.0",
   "org.typelevel"              %% "cats-effect"       % "2.1.3",
   "com.lihaoyi"                %% "fansi"             % "0.2.9",
-  "org.scalameta"              %% "munit"             % "0.7.6" % Test
+  "org.scalameta"              %% "munit"             % "0.7.7" % Test
 )
 
 testFrameworks += new TestFramework("munit.Framework")
