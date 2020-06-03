@@ -26,7 +26,7 @@ testFrameworks += new TestFramework("munit.Framework")
 scalafmtOnCompile := true
 
 ThisBuild / scalafixDependencies ++= Seq(
-  "com.nequissimus" %% "sort-imports" % "0.3.1"
+  "com.nequissimus" %% "sort-imports" % "0.5.2"
 )
 
 enablePlugins(AutomateHeaderPlugin)
