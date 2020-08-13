@@ -6,7 +6,7 @@ scalaVersion := "2.13.1"
 
 val Akka = "2.6.7"
 val GraalAkka = "0.5.0"
-val Monocle = "2.0.5"
+val Monocle = "2.1.0"
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka"          %% "akka-actor"        % Akka,
