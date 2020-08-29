@@ -51,7 +51,7 @@ class MergeSuite extends FunSuite with Fixtures {
   checkMerge("deduplicates entries by timestamp", List(1, 2), List(1, 2), List(1))
 
   checkMerge(
-    "deduplicates entries by command".ignore,
+    "deduplicates entries by command",
     List("1_a", "1_b", "1_c"),
     List("1_c", "1_b", "1_a"),
     List("1_c", "1_b", "1_a")
