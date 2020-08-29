@@ -87,26 +87,6 @@ object History {
       .mapMaterializedValue(_ => NotUsed)
   }
 
-  def checkMonotonic(entries: Source[Entry, NotUsed]): Source[(Boolean, Int), NotUsed] =
-    entries
-      .scan((true, 0)) {
-        case ((_, previous), entry) =>
-          if (previous < entry.when) (true, entry.when)
-          else (false, entry.when)
-      }
-      .map(_._1)
-      .fold((true, -1)) { case ((monotonic, count), lower) => (monotonic && lower, count + 1) }
-
-  def makeStrictlyMonotonic(entries: Source[Entry, NotUsed]): Source[Entry, NotUsed] = {
-    val When = GenLens[Entry](_.when)
-    entries
-      .scan(Padding) { (prev, curr) =>
-        if (prev.when >= curr.when) When.set(prev.when + 1)(curr)
-        else curr
-      }
-      .filterNot(_ == Padding)
-  }
-
   def merge(sources: List[Source[Entry, NotUsed]]): Source[Entry, NotUsed] =
     merge(Source(sources))
 

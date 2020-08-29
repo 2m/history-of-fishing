@@ -24,26 +24,20 @@ import com.monovore.decline.Command
 import com.monovore.decline.Opts
 
 object Commands {
-  final val HomePath = Paths.get(System.getProperty("user.home"), ".local", "share", "fish")
+  final val LocalFish = Paths.get(System.getProperty("user.home"), ".local", "share", "fish")
 
   sealed trait Command
 
-  final case class Monotonic(historyFile: Path) extends Command
   final case class Merge(files: NonEmptyList[Path]) extends Command
   final case class ResolveConflicts(path: Path) extends Command
   final case object Version extends Command
 
   val commands = {
-    val monotonic =
-      Command(
-        name = "monotonic",
-        header = "Verifies if the timestamps in the given history file increase strictly monotonically."
-      )(Opts.argument[Path]("history-file").map(Monotonic))
 
     val merge =
       Command(
         name = "merge",
-        header = "Merges given history files to one file with ordered entries."
+        header = "Merges given history files. Merged and ordered history entries are printed to stdout."
       )(Opts.arguments[Path]("history-files").map(Merge))
 
     val resolveConflicts =
@@ -52,11 +46,11 @@ object Commands {
         header = s"""|Resolves conflicts by merging files like 'fish_history.sync-conflict-*' into the
                      |'fish_history' file in the given directory.
                      |
-                     |If no directory is given, '$HomePath' is used instead.""".stripMargin
+                     |If no directory is given, '$LocalFish' is used instead.""".stripMargin
       )(
         Opts
           .argument[Path]("directory")
-          .orElse(Opts(HomePath))
+          .orElse(Opts(LocalFish))
           .map(ResolveConflicts)
       )
 
@@ -67,9 +61,8 @@ object Commands {
       )(Opts.unit.map(_ => Version))
 
     Opts
-      .subcommand(monotonic)
+      .subcommand(version)
       .orElse(Opts.subcommand(merge))
       .orElse(Opts.subcommand(resolveConflicts))
-      .orElse(Opts.subcommand(version))
   }
 }

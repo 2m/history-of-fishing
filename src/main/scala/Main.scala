@@ -18,6 +18,8 @@ package lt.dvim.hof
 
 import java.nio.file.Files
 import java.nio.file.NoSuchFileException
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 import akka.actor.ActorSystem
 import akka.stream.scaladsl.FileIO
@@ -39,11 +41,13 @@ import fansi.Underlined.{On => Underline}
 import lt.dvim.hof.History.Entry
 
 object Main extends IOApp {
+  final val BackupDatetimeFormat = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss")
+
   def run(args: List[String]): IO[ExitCode] = {
 
     val command: Command[Commands.Command] = Command(
       name = "hof",
-      header = "History of Fishing: tools for working with history files of fish shell",
+      header = "History of Fishing: tools for working with fish shell history files",
       helpFlag = true
     )(Commands.commands)
 
@@ -70,20 +74,6 @@ object Main extends IOApp {
 
   private def onCommand(c: Commands.Command)(implicit sys: ActorSystem): IO[ExitCode] =
     c match {
-      case Commands.Monotonic(file) =>
-        val monotonicAndCount = History.checkMonotonic(History.entries(file))
-
-        IoAdapter.fromSourceHead(monotonicAndCount).map {
-          case (monotonic, recordCount) =>
-            println(s"Scanned total of ${Green(recordCount.toString)} history records.")
-            if (monotonic) {
-              println(s"History was strictly ${Green("monotonic")}.")
-              ExitCode.Success
-            } else {
-              println(s"History was ${Red("not")} strictly monotonic.")
-              ExitCode.Error
-            }
-        }
 
       case Commands.Merge(files) =>
         val merged = History
@@ -94,7 +84,11 @@ object Main extends IOApp {
 
       case Commands.ResolveConflicts(directory) =>
         val OriginalHistory = directory.resolve("fish_history")
-        val NewHistory = directory.resolve("fish_history.new")
+        val HistoryBackup =
+          directory.resolve(s"fish_history.bak-${LocalDateTime.now().format(BackupDatetimeFormat)}")
+
+        println(s"Backing up current history as ${Green(HistoryBackup.toString)}")
+        Files.move(OriginalHistory, HistoryBackup)
 
         val conflictFiles = StreamConverters.fromJavaStream(() =>
           Files.find(directory, 1, (path, _) => path.toString.contains("fish_history.sync-conflict-"))
@@ -103,7 +97,7 @@ object Main extends IOApp {
         val resolver = History
           .merge(
             Source
-              .single(OriginalHistory)
+              .single(HistoryBackup)
               .concat(
                 conflictFiles.alsoTo(Sink.foreach(f => println(s"Resolving from ${Green(f.toString)}")))
               )
@@ -111,7 +105,7 @@ object Main extends IOApp {
           )
           .map(implicitly[Show[Entry]].show(_))
           .map(ByteString.apply)
-          .toMat(FileIO.toPath(NewHistory))(Keep.right)
+          .toMat(FileIO.toPath(OriginalHistory))(Keep.right)
 
         IoAdapter.fromRunnableGraph(resolver) *>
           IO.pure(ExitCode.Success)
