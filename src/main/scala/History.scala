@@ -117,10 +117,14 @@ object History {
       .fold(Source.single(Padding))((stream, source) => stream.mergeSorted(source))
       .flatMapConcat(identity)
       .sliding(n = 2, step = 1)
-      .mapConcat {
-        case prev +: current +: _ =>
-          if (prev == current) Nil
-          else List(current)
+      .splitWhen {
+        case prev +: current +: _ => prev.when != current.when
       }
+      .mapConcat(_.tail)
+      .fold(Seq.empty[Entry])((group, entry) =>
+        if (group.exists(_.cmd == entry.cmd)) group else (group :+ entry).sorted
+      )
+      .concatSubstreams
+      .mapConcat(identity)
   }
 }
