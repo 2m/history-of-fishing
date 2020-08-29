@@ -4,7 +4,7 @@ name: ci
 on:  # yamllint disable-line rule:truthy
   push:
     branches:
-      - master
+    - master
   pull_request:
 
 jobs:
@@ -14,18 +14,16 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@v1
-      - uses: olafurpg/setup-scala@v7
-        with:
-          java-version: adopt@1.11
-      - run: sbt scalafmtCheckAll
-      - run: sbt scalafmtSbtCheck
-      - run: sbt ";scalafix --check ;Test/scalafix --check"
-      - run: sbt headerCheckAll
-      - name: yaml-lint
-        uses: ibiqlik/action-yamllint@v0.0.2
-        with:
-          file_or_dir: .github/workflows/ci.yml
+    - uses: actions/checkout@v1
+    - uses: olafurpg/setup-scala@v7
+      with:
+        java-version: adopt@1.11
+    - run: sbt ";scalafixAll --check"
+    - run: sbt scalafmtCheckAll
+    - run: sbt scalafmtSbtCheck
+    - run: sbt headerCheckAll
+    - name: yaml-lint
+      uses: ibiqlik/action-yamllint@v1.0.0
 
   test:
     name: Compile and test
@@ -33,24 +31,24 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@v1
-      - uses: olafurpg/setup-scala@v7
-        with:
-          java-version: adopt@1.11
-      - run: sbt test
+    - uses: actions/checkout@v1
+    - uses: olafurpg/setup-scala@v7
+      with:
+        java-version: adopt@1.11
+    - run: sbt test
 
   native-image:
     name: Build native image
     runs-on: ubuntu-latest
     steps:
-      - uses: rinx/setup-graalvm-ce@v0.0.1
-        with:
-          graalvm-version: "20.0.0"
-          java-version: "java11"
-      - run: gu install native-image
-      - uses: actions/checkout@v1
-      - uses: olafurpg/setup-scala@v7
-        with:
-          java-version: adopt@1.11
-      - run: sbt graalvm-native-image:packageBin
-      - run: target/graalvm-native-image/hof version
+    - uses: rinx/setup-graalvm-ce@v0.0.1
+      with:
+        graalvm-version: "20.0.0"
+        java-version: "java11"
+    - run: gu install native-image
+    - uses: actions/checkout@v1
+    - uses: olafurpg/setup-scala@v7
+      with:
+        java-version: adopt@1.11
+    - run: sbt graalvm-native-image:packageBin
+    - run: target/graalvm-native-image/hof version
