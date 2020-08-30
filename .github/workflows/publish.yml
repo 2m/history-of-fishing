@@ -1,5 +1,5 @@
 ---
-name: ci
+name: publish
 
 on:  # yamllint disable-line rule:truthy
   push:
