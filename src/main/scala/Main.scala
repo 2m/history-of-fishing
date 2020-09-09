@@ -62,13 +62,12 @@ object Main extends IOApp {
         IO(println(e.toString())) *> IO(ExitCode.Error)
     }
 
-    program.handleErrorWith {
-      case ex: NoSuchFileException =>
-        IO {
-          println(s"""|${Red("File not found:")}
+    program.handleErrorWith { case ex: NoSuchFileException =>
+      IO {
+        println(s"""|${Red("File not found:")}
                       |${Underline(ex.getFile())}""".stripMargin)
-          ExitCode.Error
-        }
+        ExitCode.Error
+      }
     }
   }
 
@@ -112,6 +111,6 @@ object Main extends IOApp {
 
       case Commands.Version =>
         IO(println(BuildInfo.version)) *>
-            IO.pure(ExitCode.Success)
+          IO.pure(ExitCode.Success)
     }
 }
