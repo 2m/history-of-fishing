@@ -38,9 +38,9 @@ object History {
 
     implicit val entryRepr: Show[Entry] = Show.show { e =>
       val lines = List(
-          s"- cmd: ${e.cmd}",
-          s"  when: ${e.when}"
-        ) ++ e.paths.headOption.map(_ => "  paths:") ++ e.paths.map(p => s"    - $p")
+        s"- cmd: ${e.cmd}",
+        s"  when: ${e.when}"
+      ) ++ e.paths.headOption.map(_ => "  paths:") ++ e.paths.map(p => s"    - $p")
       lines.mkString("", System.lineSeparator(), System.lineSeparator())
     }
   }
@@ -97,8 +97,8 @@ object History {
       .fold(Source.single(Padding))((stream, source) => stream.mergeSorted(source))
       .flatMapConcat(identity)
       .sliding(n = 2, step = 1)
-      .splitWhen {
-        case prev +: current +: _ => prev.when != current.when
+      .splitWhen { case prev +: current +: _ =>
+        prev.when != current.when
       }
       .mapConcat(_.tail)
       .fold(Seq.empty[Entry])((group, entry) =>
