@@ -36,6 +36,16 @@ organizationName := "History of Fishing"
 licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt"))
 
 bintrayOrganization := Some("2m")
+homepage := Some(url("https://github.com/2m/history-of-fishing"))
+scmInfo := Some(
+  ScmInfo(url("https://github.com/2m/history-of-fishing"), "git@github.com:2m/history-of-fishing.git")
+)
+developers += Developer(
+  "contributors",
+  "Contributors",
+  "https://gitter.im/2m/general",
+  url("https://github.com/2m/history-of-fishing/graphs/contributors")
+)
 
 buildInfoKeys := Seq[BuildInfoKey](version)
 buildInfoPackage := "lt.dvim.hof"
