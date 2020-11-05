@@ -27,7 +27,7 @@ scalafmtOnCompile := true
 scalafixOnCompile := true
 
 ThisBuild / scalafixDependencies ++= Seq(
-  "com.nequissimus" %% "sort-imports" % "0.5.4"
+  "com.nequissimus" %% "sort-imports" % "0.5.5"
 )
 
 enablePlugins(AutomateHeaderPlugin)
