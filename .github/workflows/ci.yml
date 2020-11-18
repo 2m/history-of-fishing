@@ -23,7 +23,7 @@ jobs:
     - run: sbt scalafmtSbtCheck
     - run: sbt headerCheckAll
     - name: yaml-lint
-      uses: ibiqlik/action-yamllint@v1.0.0
+      uses: ibiqlik/action-yamllint@v3
 
   test:
     name: Compile and test
