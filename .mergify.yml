@@ -9,6 +9,16 @@ pull_request_rules:
     merge:
       method: merge
 
+- name: Merge PRs from dependabot that pass validation
+  conditions:
+  - status-success~=Format and style checks
+  - status-success~=Compile and test
+  - status-success~=Build native image
+  - author=dependabot[bot]
+  actions:
+    merge:
+      method: merge
+
 - name: Delete the PR branch after merge
   conditions:
   - merged
