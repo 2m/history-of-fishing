@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
     steps:
     - uses: actions/checkout@v1
-    - uses: olafurpg/setup-scala@v7
+    - uses: olafurpg/setup-scala@v10
       with:
         java-version: adopt@1.11
     - run: sbt ";scalafixAll --check"
@@ -32,7 +32,7 @@ jobs:
       fail-fast: false
     steps:
     - uses: actions/checkout@v1
-    - uses: olafurpg/setup-scala@v7
+    - uses: olafurpg/setup-scala@v10
       with:
         java-version: adopt@1.11
     - run: sbt test
@@ -41,13 +41,13 @@ jobs:
     name: Build native image
     runs-on: ubuntu-latest
     steps:
-    - uses: rinx/setup-graalvm-ce@v0.0.1
+    - uses: rinx/setup-graalvm-ce@v0.0.5
       with:
         graalvm-version: "20.0.0"
         java-version: "java11"
     - run: gu install native-image
     - uses: actions/checkout@v1
-    - uses: olafurpg/setup-scala@v7
+    - uses: olafurpg/setup-scala@v10
       with:
         java-version: adopt@1.11
     - run: sbt graalvm-native-image:packageBin
