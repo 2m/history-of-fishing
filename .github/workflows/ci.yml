@@ -41,7 +41,7 @@ jobs:
     name: Build native image
     runs-on: ubuntu-latest
     steps:
-    - uses: rinx/setup-graalvm-ce@v0.0.1
+    - uses: rinx/setup-graalvm-ce@v0.0.5
       with:
         graalvm-version: "20.0.0"
         java-version: "java11"
