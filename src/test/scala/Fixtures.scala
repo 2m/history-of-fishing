@@ -40,6 +40,7 @@ trait Fixtures { self: munit.FunSuite =>
     def toEntry(t: String): Entry =
       t match {
         case s"${when}_$cmd" => Entry(cmd, when.toInt, List())
+        case _               => ???
       }
   }
 
