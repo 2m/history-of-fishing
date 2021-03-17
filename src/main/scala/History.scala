@@ -97,8 +97,8 @@ object History {
       .fold(Source.single(Padding))((stream, source) => stream.mergeSorted(source))
       .flatMapConcat(identity)
       .sliding(n = 2, step = 1)
-      .splitWhen { case prev +: current +: _ =>
-        prev.when != current.when
+      .splitWhen { case window =>
+        window.head.when != window.last.when
       }
       .mapConcat(_.tail)
       .fold(Seq.empty[Entry])((group, entry) =>
