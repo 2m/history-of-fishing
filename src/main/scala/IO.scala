@@ -27,7 +27,7 @@ import cats.effect.IO
 
 object IoAdapter {
   def fromRunnableGraph(graph: RunnableGraph[Future[_]])(implicit sys: ActorSystem) =
-    IO.async[Unit] { complete =>
+    IO.async_[Unit] { complete =>
       import sys.dispatcher
       graph.run().onComplete {
         case Success(_)      => complete(Right(()))
