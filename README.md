@@ -15,6 +15,19 @@ History of Fishing (or `hof`) is a CLI application that works with the [Fish She
 * merges arbitrary number of Fish Shell history files
 * verifies Fish Shell history file that it contains only increasing timestamps
 
+## Installation
+
+Use [`coursier`](https://get-coursier.io/) to install and launch `hof`:
+
+```
+cs bootstrap lt.dvim.hof::hof:latest.release -o ~/.local/bin/hof
+```
+
+```
+hof version
+1.3
+```
+
 ## Usage
 
 [![asciicast-badge][]][asciicast]
