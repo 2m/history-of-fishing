@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 History of Fishing
+ * Copyright 2020 github.com/2m/yabai-scala/history-of-fishing
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

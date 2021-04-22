@@ -32,20 +32,17 @@ ThisBuild / scalafixDependencies ++= Seq(
 
 enablePlugins(AutomateHeaderPlugin)
 startYear := Some(2020)
-organizationName := "History of Fishing"
+organizationName := "github.com/2m/yabai-scala/history-of-fishing"
 licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt"))
 
-bintrayOrganization := Some("2m")
 homepage := Some(url("https://github.com/2m/history-of-fishing"))
-scmInfo := Some(
-  ScmInfo(url("https://github.com/2m/history-of-fishing"), "git@github.com:2m/history-of-fishing.git")
-)
 developers += Developer(
   "contributors",
   "Contributors",
   "https://gitter.im/2m/general",
-  url("https://github.com/2m/history-of-fishing/graphs/contributors")
+  url("https://github.com/2m/history-of-fishing/contributors")
 )
+sonatypeProfileName := "lt.dvim"
 
 buildInfoKeys := Seq[BuildInfoKey](version)
 buildInfoPackage := "lt.dvim.hof"
