@@ -4,7 +4,7 @@ description := "Tools for working with history files of fish shell"
 
 scalaVersion := "2.13.6"
 
-val Akka = "2.6.14"
+val Akka = "2.6.15"
 val GraalAkka = "0.5.0"
 val Monocle = "2.1.0"
 
