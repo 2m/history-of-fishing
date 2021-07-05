@@ -15,7 +15,7 @@ libraryDependencies ++= Seq(
   "com.github.vmencik"         %% "graal-akka-stream" % GraalAkka,
   "com.github.julien-truffaut" %% "monocle-core"      % Monocle,
   "com.github.julien-truffaut" %% "monocle-macro"     % Monocle,
-  "com.monovore"               %% "decline"           % "2.0.0",
+  "com.monovore"               %% "decline"           % "2.1.0",
   "org.typelevel"              %% "cats-effect"       % "3.1.1",
   "com.lihaoyi"                %% "fansi"             % "0.2.14",
   "org.scalameta"              %% "munit"             % "0.7.27" % Test
