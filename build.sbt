@@ -9,16 +9,16 @@ val GraalAkka = "0.5.0"
 val Monocle = "2.1.0"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka"          %% "akka-actor"        % Akka,
-  "com.typesafe.akka"          %% "akka-stream"       % Akka exclude ("com.typesafe.akka", "akka-protobuf-v3_2.13"),
-  "com.github.vmencik"         %% "graal-akka-actor"  % GraalAkka,
-  "com.github.vmencik"         %% "graal-akka-stream" % GraalAkka,
-  "com.github.julien-truffaut" %% "monocle-core"      % Monocle,
-  "com.github.julien-truffaut" %% "monocle-macro"     % Monocle,
-  "com.monovore"               %% "decline"           % "2.1.0",
-  "org.typelevel"              %% "cats-effect"       % "3.2.3",
-  "com.lihaoyi"                %% "fansi"             % "0.2.14",
-  "org.scalameta"              %% "munit"             % "0.7.28" % Test
+  "com.typesafe.akka"  %% "akka-actor"        % Akka,
+  "com.typesafe.akka"  %% "akka-stream"       % Akka exclude ("com.typesafe.akka", "akka-protobuf-v3_2.13"),
+  "com.github.vmencik" %% "graal-akka-actor"  % GraalAkka,
+  "com.github.vmencik" %% "graal-akka-stream" % GraalAkka,
+  "com.github.julien-truffaut" %% "monocle-core"  % Monocle,
+  "com.github.julien-truffaut" %% "monocle-macro" % Monocle,
+  "com.monovore"               %% "decline"       % "2.1.0",
+  "org.typelevel"              %% "cats-effect"   % "3.2.3",
+  "com.lihaoyi"                %% "fansi"         % "0.2.14",
+  "org.scalameta"              %% "munit"         % "0.7.28" % Test
 )
 
 testFrameworks += new TestFramework("munit.Framework")
