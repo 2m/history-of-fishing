@@ -16,7 +16,7 @@ libraryDependencies ++= Seq(
   "com.github.julien-truffaut" %% "monocle-core"  % Monocle,
   "com.github.julien-truffaut" %% "monocle-macro" % Monocle,
   "com.monovore"               %% "decline"       % "2.1.0",
-  "org.typelevel"              %% "cats-effect"   % "3.2.6",
+  "org.typelevel"              %% "cats-effect"   % "3.2.7",
   "com.lihaoyi"                %% "fansi"         % "0.2.14",
   "org.scalameta"              %% "munit"         % "0.7.29" % Test
 )
