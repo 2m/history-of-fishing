@@ -1,0 +1,59 @@
+name: Native Image
+
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches:
+    - main
+  pull_request:
+  release:
+    types: [published]
+
+jobs:
+  unix:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # enable after https://github.com/oracle/graal/issues/1675 is sorted
+        # os: [macOS-latest, ubuntu-latest, windows-latest]
+        os: [macOS-latest, ubuntu-latest]
+        include:
+        - os: macOS-latest
+          uploaded_filename: hof-x86_64-apple-darwin
+          local_path: target/native-image/hof
+        - os: ubuntu-latest
+          uploaded_filename: hof-x86_64-pc-linux
+          local_path: target/native-image/hof
+    # enable after https://github.com/oracle/graal/issues/1675 is sorted
+    #    - os: windows-latest
+    #      uploaded_filename: hof-x86_64-pc-win32.exe
+    #      local_path: target\native-image\hof.exe
+    steps:
+    - uses: actions/checkout@v2
+    - uses: coursier/cache-action@v6
+    - uses: olafurpg/setup-scala@v13
+    - run: git fetch --tags || true
+    - shell: bash
+      if: ${{ matrix.os != 'windows-latest' }}
+      run: sbt history-of-fishing/nativeImage
+    - shell: cmd
+      if: ${{ matrix.os == 'windows-latest' }}
+      run: >-
+        "C:\Program Files (x86)\Microsoft Visual
+        Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat" && sbt
+        history-of-fishing/nativeImage
+    - run: ${{ matrix.local_path }} version
+    - uses: actions/upload-artifact@v2
+      with:
+        path: ${{ matrix.local_path }}
+        name: ${{ matrix.uploaded_filename }}
+    - name: Upload release
+      if: github.event_name == 'release'
+      uses: actions/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ${{ matrix.local_path }}
+        asset_name: ${{ matrix.uploaded_filename }}
+        asset_content_type: application/zip
