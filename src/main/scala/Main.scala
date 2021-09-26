@@ -56,7 +56,7 @@ object Main extends IOApp {
         implicit val sys = ActorSystem()
         onCommand(cmd).guaranteeCase { _ =>
           import sys.dispatcher
-          IO.fromFuture(IO.pure(sys.terminate().map(_ => ())))
+          IO.fromFuture(IO(sys.terminate().map(_ => ())))
         }
       case Left(e) =>
         IO(println(e.toString())) *> IO(ExitCode.Error)
@@ -93,7 +93,7 @@ object Main extends IOApp {
           directory.resolve(s"fish_history.bak-${LocalDateTime.now().format(BackupDatetimeFormat)}")
 
         println(s"Backing up current history as ${Green(HistoryBackup.toString)}")
-        Files.move(OriginalHistory, HistoryBackup)
+        Files.copy(OriginalHistory, HistoryBackup)
 
         val conflictFiles = StreamConverters.fromJavaStream(() =>
           Files.find(directory, 1, (path, _) => path.toString.contains("fish_history.sync-conflict-"))

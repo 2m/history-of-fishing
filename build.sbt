@@ -5,14 +5,11 @@ description := "Tools for working with history files of fish shell"
 scalaVersion := "2.13.6"
 
 val Akka = "2.6.16"
-val GraalAkka = "0.5.0"
 val Monocle = "2.1.0"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka"  %% "akka-actor"        % Akka,
-  "com.typesafe.akka"  %% "akka-stream"       % Akka exclude ("com.typesafe.akka", "akka-protobuf-v3_2.13"),
-  "com.github.vmencik" %% "graal-akka-actor"  % GraalAkka,
-  "com.github.vmencik" %% "graal-akka-stream" % GraalAkka,
+  "com.typesafe.akka"          %% "akka-actor"    % Akka,
+  "com.typesafe.akka"          %% "akka-stream"   % Akka,
   "com.github.julien-truffaut" %% "monocle-core"  % Monocle,
   "com.github.julien-truffaut" %% "monocle-macro" % Monocle,
   "com.monovore"               %% "decline"       % "2.2.0",
@@ -47,6 +44,18 @@ sonatypeProfileName := "lt.dvim"
 buildInfoKeys := Seq[BuildInfoKey](version)
 buildInfoPackage := "lt.dvim.hof"
 
+nativeImageOptions ++= List(
+  "--verbose",
+  "--no-fallback",
+  "--initialize-at-build-time",
+  "--allow-incomplete-classpath",
+  "--report-unsupported-elements-at-runtime",
+  "--initialize-at-run-time=scala.util.Random$",
+  "--initialize-at-build-time=scala.runtime.Statics$VM"
+)
+nativeImageVersion := "21.2.0"
+nativeImageAgentOutputDir := (Compile / resourceDirectory).value / "META-INF" / "native-image" / organization.value / name.value
+
 enablePlugins(JavaAppPackaging)
-enablePlugins(GraalVMNativeImagePlugin)
 enablePlugins(BuildInfoPlugin)
+enablePlugins(NativeImagePlugin)
