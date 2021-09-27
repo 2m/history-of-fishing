@@ -17,15 +17,19 @@ History of Fishing (or `hof`) is a CLI application that works with the [Fish She
 
 ## Installation
 
-Use [`coursier`](https://get-coursier.io/) to install and launch `hof`:
+Download latest binaries from the GitHub releases:
 
 ```
-> cs bootstrap lt.dvim.hof::hof:latest.release --native-image --graalvm 20.0 -o ~/.local/bin/hof
+# macOS
+> curl -L -o ~/.local/bin/hof https://github.com/2m/history-of-fishing/releases/latest/download/hof-x86_64-apple-darwin
+
+# Linux
+> curl -L -o ~/.local/bin/hof https://github.com/2m/history-of-fishing/releases/latest/download/hof-x86_64-pc-linux
 ```
 
 ```
 > hof version
-1.3
+1.3.2
 ```
 
 ## Usage
