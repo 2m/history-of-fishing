@@ -24,7 +24,7 @@ import com.monovore.decline.Command
 import com.monovore.decline.Opts
 
 object Commands {
-  final val LocalFish = Paths.get(System.getProperty("user.home"), ".local", "share", "fish")
+  private def localFish = Paths.get(System.getProperty("user.home"), ".local", "share", "fish")
 
   sealed trait Command
 
@@ -46,11 +46,11 @@ object Commands {
         header = s"""|Resolves conflicts by merging files like 'fish_history.sync-conflict-*' into the
                      |'fish_history' file in the given directory.
                      |
-                     |If no directory is given, '$LocalFish' is used instead.""".stripMargin
+                     |If no directory is given, '$localFish' is used instead.""".stripMargin
       )(
         Opts
           .argument[Path]("directory")
-          .orElse(Opts(LocalFish))
+          .orElse(Opts(localFish))
           .map(ResolveConflicts)
       )
 
