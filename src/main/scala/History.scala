@@ -56,7 +56,7 @@ object History {
     () => {
       var state = Option.empty[State]
 
-      def stateToEntry = state.map(Entry.apply).toIndexedSeq.toIterable
+      def stateToEntry = state.map(Entry.apply).toIndexedSeq.toList
 
       (s: ByteString) =>
         s.utf8String match {
