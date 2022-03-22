@@ -2,9 +2,9 @@ organization := "lt.dvim.hof"
 name := "hof"
 description := "Tools for working with history files of fish shell"
 
-scalaVersion := "2.13.7"
+scalaVersion := "2.13.8"
 
-val Akka = "2.6.18"
+val Akka = "2.6.19"
 val Monocle = "2.1.0"
 
 libraryDependencies ++= Seq(
@@ -13,7 +13,7 @@ libraryDependencies ++= Seq(
   "com.github.julien-truffaut" %% "monocle-core"  % Monocle,
   "com.github.julien-truffaut" %% "monocle-macro" % Monocle,
   "com.monovore"               %% "decline"       % "2.2.0",
-  "org.typelevel"              %% "cats-effect"   % "3.3.4",
+  "org.typelevel"              %% "cats-effect"   % "3.3.8",
   "com.lihaoyi"                %% "fansi"         % "0.3.0",
   "org.scalameta"              %% "munit"         % "0.7.29" % Test
 )
