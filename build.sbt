@@ -2,7 +2,7 @@ organization := "lt.dvim.hof"
 name := "hof"
 description := "Tools for working with history files of fish shell"
 
-scalaVersion := "2.13.7"
+scalaVersion := "2.13.8"
 
 val Akka = "2.6.19"
 val Monocle = "2.1.0"
