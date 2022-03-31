@@ -3,8 +3,8 @@ pull_request_rules:
   conditions:
   - status-success~=Format and style checks
   - status-success~=Compile and test
-  - status-success~=unix (macOS-latest)
-  - status-success~=unix (ubuntu-latest)
+  - status-success~=macOS-latest
+  - status-success~=ubuntu-latest
   - author=scala-steward
   actions:
     merge:
@@ -14,8 +14,8 @@ pull_request_rules:
   conditions:
   - status-success~=Format and style checks
   - status-success~=Compile and test
-  - status-success~=unix (macOS-latest)
-  - status-success~=unix (ubuntu-latest)
+  - status-success~=macOS-latest
+  - status-success~=ubuntu-latest
   - author=dependabot[bot]
   actions:
     merge:
