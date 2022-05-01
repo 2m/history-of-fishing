@@ -43,7 +43,7 @@ jobs:
         Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat" && sbt
         history-of-fishing/nativeImage
     - run: ${{ matrix.local_path }} version
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         path: ${{ matrix.local_path }}
         name: ${{ matrix.uploaded_filename }}
