@@ -1,252 +1,306 @@
 [
 {
-  "name":"akka.actor.ActorCell",
-  "fields":[
-    {"name":"akka$actor$dungeon$Children$$_childrenRefsDoNotCallMeDirectly"}, 
-    {"name":"akka$actor$dungeon$Children$$_functionRefsDoNotCallMeDirectly"}, 
-    {"name":"akka$actor$dungeon$Children$$_nextNameDoNotCallMeDirectly"}, 
-    {"name":"akka$actor$dungeon$Dispatch$$_mailboxDoNotCallMeDirectly"}
-  ]
+  "name":"[B"
 },
 {
-  "name":"akka.actor.DefaultSupervisorStrategy",
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "name":"[C"
 },
 {
-  "name":"akka.actor.LightArrayRevolverScheduler",
-  "methods":[{"name":"<init>","parameterTypes":["com.typesafe.config.Config","akka.event.LoggingAdapter","java.util.concurrent.ThreadFactory"] }]
+  "name":"[D"
 },
 {
-  "name":"akka.actor.LightArrayRevolverScheduler$TaskHolder",
-  "fields":[{"name":"task"}]
+  "name":"[F"
 },
 {
-  "name":"akka.actor.LightArrayRevolverScheduler$TaskQueue[]"
+  "name":"[I"
 },
 {
-  "name":"akka.actor.LocalActorRefProvider",
-  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","akka.actor.ActorSystem$Settings","akka.event.EventStream","akka.actor.DynamicAccess"] }]
+  "name":"[J"
 },
 {
-  "name":"akka.actor.LocalActorRefProvider$Guardian",
-  "allDeclaredConstructors":true
+  "name":"[Ljava.lang.String;"
 },
 {
-  "name":"akka.actor.LocalActorRefProvider$SystemGuardian",
-  "allDeclaredConstructors":true
+  "name":"[Ljavax.management.openmbean.CompositeData;"
 },
 {
-  "name":"akka.actor.Props$EmptyActor",
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "name":"[S"
 },
 {
-  "name":"akka.actor.RepointableActorRef",
-  "fields":[
-    {"name":"_cellDoNotCallMeDirectly"}, 
-    {"name":"_lookupDoNotCallMeDirectly"}
-  ]
+  "name":"[Z"
 },
 {
-  "name":"akka.dispatch.AbstractNodeQueue",
-  "fields":[{"name":"_tailDoNotCallMeDirectly"}]
+  "name":"cats.effect.unsafe.metrics.ComputePoolSampler",
+  "queryAllPublicConstructors":true
 },
 {
-  "name":"akka.dispatch.AbstractNodeQueue$Node",
-  "fields":[{"name":"_nextDoNotCallMeDirectly"}]
+  "name":"cats.effect.unsafe.metrics.ComputePoolSamplerMBean",
+  "queryAllPublicMethods":true
 },
 {
-  "name":"akka.dispatch.BoundedControlAwareMessageQueueSemantics"
+  "name":"cats.effect.unsafe.metrics.LiveFiberSnapshotTrigger",
+  "queryAllPublicConstructors":true
 },
 {
-  "name":"akka.dispatch.BoundedDequeBasedMessageQueueSemantics"
+  "name":"cats.effect.unsafe.metrics.LiveFiberSnapshotTriggerMBean",
+  "queryAllPublicMethods":true
 },
 {
-  "name":"akka.dispatch.BoundedMessageQueueSemantics"
+  "name":"cats.effect.unsafe.metrics.LocalQueueSampler",
+  "queryAllPublicConstructors":true
 },
 {
-  "name":"akka.dispatch.ControlAwareMessageQueueSemantics"
+  "name":"cats.effect.unsafe.metrics.LocalQueueSamplerMBean",
+  "queryAllPublicMethods":true
 },
 {
-  "name":"akka.dispatch.DequeBasedMessageQueueSemantics"
+  "name":"com.sun.management.GarbageCollectorMXBean",
+  "queryAllPublicMethods":true
 },
 {
-  "name":"akka.dispatch.Mailbox",
-  "fields":[
-    {"name":"_statusDoNotCallMeDirectly"}, 
-    {"name":"_systemQueueDoNotCallMeDirectly"}
-  ]
+  "name":"com.sun.management.GcInfo",
+  "queryAllPublicMethods":true
 },
 {
-  "name":"akka.dispatch.MessageDispatcher",
-  "fields":[
-    {"name":"_inhabitantsDoNotCallMeDirectly"}, 
-    {"name":"_shutdownScheduleDoNotCallMeDirectly"}
-  ]
+  "name":"com.sun.management.HotSpotDiagnosticMXBean",
+  "queryAllPublicMethods":true
 },
 {
-  "name":"akka.dispatch.MultipleConsumerSemantics"
+  "name":"com.sun.management.ThreadMXBean",
+  "queryAllPublicMethods":true
 },
 {
-  "name":"akka.dispatch.UnboundedControlAwareMessageQueueSemantics"
+  "name":"com.sun.management.UnixOperatingSystemMXBean",
+  "queryAllPublicMethods":true
 },
 {
-  "name":"akka.dispatch.UnboundedDequeBasedMessageQueueSemantics"
+  "name":"com.sun.management.VMOption",
+  "queryAllPublicMethods":true
 },
 {
-  "name":"akka.dispatch.UnboundedMailbox",
-  "methods":[{"name":"<init>","parameterTypes":["akka.actor.ActorSystem$Settings","com.typesafe.config.Config"] }]
+  "name":"com.sun.management.internal.GarbageCollectorExtImpl",
+  "queryAllPublicConstructors":true
 },
 {
-  "name":"akka.dispatch.UnboundedMessageQueueSemantics"
+  "name":"com.sun.management.internal.HotSpotDiagnostic",
+  "queryAllPublicConstructors":true
 },
 {
-  "name":"akka.event.DeadLetterListener",
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "name":"com.sun.management.internal.HotSpotThreadImpl",
+  "queryAllPublicConstructors":true
 },
 {
-  "name":"akka.event.DefaultLoggingFilter",
-  "methods":[{"name":"<init>","parameterTypes":["akka.actor.ActorSystem$Settings","akka.event.EventStream"] }]
+  "name":"com.sun.management.internal.OperatingSystemImpl",
+  "queryAllPublicConstructors":true
 },
 {
-  "name":"akka.event.EventStreamUnsubscriber",
-  "allDeclaredConstructors":true
+  "name":"java.lang.Boolean",
+  "fields":[{"name":"TYPE"}]
 },
 {
-  "name":"akka.event.LoggerMailboxType",
-  "methods":[{"name":"<init>","parameterTypes":["akka.actor.ActorSystem$Settings","com.typesafe.config.Config"] }]
+  "name":"java.lang.Byte",
+  "fields":[{"name":"TYPE"}]
 },
 {
-  "name":"akka.event.LoggerMessageQueueSemantics"
+  "name":"java.lang.Character",
+  "fields":[{"name":"TYPE"}]
 },
 {
-  "name":"akka.event.Logging$DefaultLogger",
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "name":"java.lang.Double",
+  "fields":[{"name":"TYPE"}]
 },
 {
-  "name":"akka.pattern.PromiseActorRef",
-  "fields":[
-    {"name":"_stateDoNotCallMeDirectly"}, 
-    {"name":"_watchedByDoNotCallMeDirectly"}
-  ]
+  "name":"java.lang.Float",
+  "fields":[{"name":"TYPE"}]
 },
 {
-  "name":"akka.routing.ConsistentHashingPool",
-  "methods":[{"name":"<init>","parameterTypes":["com.typesafe.config.Config"] }]
+  "name":"java.lang.Integer",
+  "fields":[{"name":"TYPE"}]
 },
 {
-  "name":"akka.routing.RoundRobinPool",
-  "methods":[{"name":"<init>","parameterTypes":["com.typesafe.config.Config"] }]
+  "name":"java.lang.Long",
+  "fields":[{"name":"TYPE"}]
 },
 {
-  "name":"akka.serialization.BooleanSerializer",
-  "methods":[{"name":"<init>","parameterTypes":["akka.actor.ExtendedActorSystem"] }]
+  "name":"java.lang.Short",
+  "fields":[{"name":"TYPE"}]
 },
 {
-  "name":"akka.serialization.ByteArraySerializer",
-  "methods":[{"name":"<init>","parameterTypes":["akka.actor.ExtendedActorSystem"] }]
+  "name":"java.lang.StackTraceElement",
+  "queryAllPublicMethods":true
 },
 {
-  "name":"akka.serialization.ByteStringSerializer",
-  "methods":[{"name":"<init>","parameterTypes":["akka.actor.ExtendedActorSystem"] }]
+  "name":"java.lang.String"
 },
 {
-  "name":"akka.serialization.DisabledJavaSerializer",
-  "methods":[{"name":"<init>","parameterTypes":["akka.actor.ExtendedActorSystem"] }]
-},
-{
-  "name":"akka.serialization.IntSerializer",
-  "methods":[{"name":"<init>","parameterTypes":["akka.actor.ExtendedActorSystem"] }]
-},
-{
-  "name":"akka.serialization.LongSerializer",
-  "methods":[{"name":"<init>","parameterTypes":["akka.actor.ExtendedActorSystem"] }]
-},
-{
-  "name":"akka.serialization.SerializationExtension$",
-  "fields":[{"name":"MODULE$"}]
-},
-{
-  "name":"akka.serialization.StringSerializer",
-  "methods":[{"name":"<init>","parameterTypes":["akka.actor.ExtendedActorSystem"] }]
-},
-{
-  "name":"akka.stream.SinkRef"
-},
-{
-  "name":"akka.stream.SourceRef"
-},
-{
-  "name":"akka.stream.SystemMaterializer$",
-  "fields":[{"name":"MODULE$"}]
-},
-{
-  "name":"akka.stream.impl.streamref.StreamRefsProtocol"
-},
-{
-  "name":"akka.stream.serialization.StreamRefSerializer",
-  "methods":[{"name":"<init>","parameterTypes":["akka.actor.ExtendedActorSystem"] }]
-},
-{
-  "name":"akka.stream.stage.GraphStageLogic[]"
-},
-{
-  "name":"akka.util.ByteString$ByteString1"
-},
-{
-  "name":"akka.util.ByteString$ByteString1C"
-},
-{
-  "name":"akka.util.ByteString$ByteStrings"
-},
-{
-  "name":"byte[]"
-},
-{
-  "name":"fansi.Attr[]"
-},
-{
-  "name":"fansi.Category[]"
-},
-{
-  "name":"java.io.Serializable"
-},
-{
-  "name":"java.lang.Boolean"
-},
-{
-  "name":"java.lang.Class[]"
-},
-{
-  "name":"java.lang.Integer"
-},
-{
-  "name":"java.lang.Long"
-},
-{
-  "name":"java.lang.Object[][]"
-},
-{
-  "name":"java.lang.String",
-  "fields":[{"name":"value"}]
+  "name":"java.lang.Void",
+  "fields":[{"name":"TYPE"}]
 },
 {
   "name":"java.lang.invoke.VarHandle",
   "methods":[{"name":"releaseFence","parameterTypes":[] }]
 },
 {
-  "name":"scala.Boolean"
+  "name":"java.lang.management.BufferPoolMXBean",
+  "queryAllPublicMethods":true
 },
 {
-  "name":"scala.Int"
+  "name":"java.lang.management.ClassLoadingMXBean",
+  "queryAllPublicMethods":true
 },
 {
-  "name":"scala.Long"
+  "name":"java.lang.management.CompilationMXBean",
+  "queryAllPublicMethods":true
 },
 {
-  "name":"scala.Tuple2[]"
+  "name":"java.lang.management.LockInfo",
+  "queryAllPublicMethods":true
 },
 {
-  "name":"sun.misc.Unsafe",
-  "allDeclaredFields":true
+  "name":"java.lang.management.ManagementPermission",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"java.lang.management.MemoryMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.management.MemoryManagerMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.management.MemoryPoolMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.management.MemoryUsage",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.management.MonitorInfo",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.management.PlatformLoggingMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.management.RuntimeMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.management.ThreadInfo",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.math.BigDecimal"
+},
+{
+  "name":"java.math.BigInteger"
+},
+{
+  "name":"java.util.Date"
+},
+{
+  "name":"java.util.PropertyPermission",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String"] }]
+},
+{
+  "name":"java.util.logging.LogManager",
+  "methods":[{"name":"getLoggingMXBean","parameterTypes":[] }]
+},
+{
+  "name":"java.util.logging.LoggingMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"javax.management.MBeanOperationInfo",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"javax.management.MBeanServerBuilder",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"javax.management.ObjectName"
+},
+{
+  "name":"javax.management.openmbean.CompositeData"
+},
+{
+  "name":"javax.management.openmbean.OpenMBeanOperationInfoSupport"
+},
+{
+  "name":"javax.management.openmbean.TabularData"
+},
+{
+  "name":"jdk.management.jfr.ConfigurationInfo",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"jdk.management.jfr.EventTypeInfo",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"jdk.management.jfr.FlightRecorderMXBean",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"jdk.management.jfr.FlightRecorderMXBeanImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"jdk.management.jfr.RecordingInfo",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"jdk.management.jfr.SettingDescriptorInfo",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"scala.reflect.ScalaSignature",
+  "queryAllPublicMethods":true
+},
+{
+  "name":"sun.management.ClassLoadingImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.management.CompilationImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.management.ManagementFactoryHelper$1",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.management.ManagementFactoryHelper$PlatformLoggingImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.management.MemoryImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.management.MemoryManagerImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.management.MemoryPoolImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.management.RuntimeImpl",
+  "queryAllPublicConstructors":true
+},
+{
+  "name":"sun.misc.Signal",
+  "methods":[
+    {"name":"<init>","parameterTypes":["java.lang.String"] }, 
+    {"name":"handle","parameterTypes":["sun.misc.Signal","sun.misc.SignalHandler"] }
+  ]
+},
+{
+  "name":"sun.misc.SignalHandler"
 }
 ]

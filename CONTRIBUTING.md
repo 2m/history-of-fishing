@@ -4,22 +4,16 @@ The `native-image` reflection configuration file [reflect-config.json][] is gene
 
 To regenerate reflection configuration:
 
-1. Build `hof` application:
-
-    ```shell
-    sbt stage
-    ```
-
 1. Run typical `hof` workload with attached agent:
 
-    ```shell
-    target/universal/stage/bin/hof -J-agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image monotonic ~/.local/share/fish/fish_history
+    ```sbt
+    sbt> nativeImageRunAgent " resolve-conflicts"
     ```
 
 1. Regenerate native image with updated configuration:
 
     ```shell
-    sbt graalvm-native-image:packageBin
+    sbt> nativeImage
     ```
 
 [reflect-config.json]: /src/main/resources/META-INF/native-image/reflect-config.json

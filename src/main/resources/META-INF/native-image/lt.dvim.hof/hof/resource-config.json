@@ -1,10 +1,5 @@
 {
   "resources":{
-  "includes":[
-    {"pattern":"\\QMETA-INF/MANIFEST.MF\\E"}, 
-    {"pattern":"\\Qapplication.conf\\E"}, 
-    {"pattern":"\\Qreference.conf\\E"}, 
-    {"pattern":"\\Qversion.conf\\E"}
-  ]},
+  "includes":[]},
   "bundles":[]
 }
