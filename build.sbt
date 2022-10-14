@@ -12,7 +12,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka"          %% "akka-stream"   % Akka,
   "com.github.julien-truffaut" %% "monocle-core"  % Monocle,
   "com.github.julien-truffaut" %% "monocle-macro" % Monocle,
-  "com.monovore"               %% "decline"       % "2.3.0",
+  "com.monovore"               %% "decline"       % "2.3.1",
   "org.typelevel"              %% "cats-effect"   % "3.3.12",
   "com.lihaoyi"                %% "fansi"         % "0.4.0",
   "org.scalameta"              %% "munit"         % "0.7.29" % Test
