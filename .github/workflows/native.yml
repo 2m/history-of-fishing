@@ -31,7 +31,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: coursier/cache-action@v6
-    - uses: olafurpg/setup-scala@v13
+    - uses: olafurpg/setup-scala@v14
     - run: git fetch --tags || true
     - shell: bash
       if: ${{ matrix.os != 'windows-latest' }}
