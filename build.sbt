@@ -5,17 +5,17 @@ description := "Tools for working with history files of fish shell"
 scalaVersion := "2.13.10"
 
 val Akka = "2.6.20"
-val Monocle = "2.1.0"
+val Monocle = "3.2.0"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka"          %% "akka-actor"    % Akka,
-  "com.typesafe.akka"          %% "akka-stream"   % Akka,
-  "com.github.julien-truffaut" %% "monocle-core"  % Monocle,
-  "com.github.julien-truffaut" %% "monocle-macro" % Monocle,
-  "com.monovore"               %% "decline"       % "2.4.1",
-  "org.typelevel"              %% "cats-effect"   % "3.3.12",
-  "com.lihaoyi"                %% "fansi"         % "0.4.0",
-  "org.scalameta"              %% "munit"         % "0.7.29" % Test
+  "com.typesafe.akka" %% "akka-actor"    % Akka,
+  "com.typesafe.akka" %% "akka-stream"   % Akka,
+  "dev.optics"        %% "monocle-core"  % Monocle,
+  "dev.optics"        %% "monocle-macro" % Monocle,
+  "com.monovore"      %% "decline"       % "2.4.1",
+  "org.typelevel"     %% "cats-effect"   % "3.3.12",
+  "com.lihaoyi"       %% "fansi"         % "0.4.0",
+  "org.scalameta"     %% "munit"         % "0.7.29" % Test
 )
 
 testFrameworks += new TestFramework("munit.Framework")
