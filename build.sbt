@@ -53,7 +53,8 @@ nativeImageOptions ++= List(
   "--initialize-at-run-time=scala.util.Random$",
   "--initialize-at-build-time=scala.runtime.Statics$VM"
 )
-nativeImageVersion := "21.2.0"
+nativeImageJvm := "graalvm-java17"
+nativeImageVersion := "22.3.1"
 nativeImageAgentOutputDir := (Compile / resourceDirectory).value / "META-INF" / "native-image" / organization.value / name.value
 
 enablePlugins(JavaAppPackaging)
