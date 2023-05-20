@@ -13,7 +13,7 @@ libraryDependencies ++= Seq(
   "dev.optics"        %% "monocle-core"  % Monocle,
   "dev.optics"        %% "monocle-macro" % Monocle,
   "com.monovore"      %% "decline"       % "2.4.1",
-  "org.typelevel"     %% "cats-effect"   % "3.3.12",
+  "org.typelevel"     %% "cats-effect"   % "3.5.0",
   "com.lihaoyi"       %% "fansi"         % "0.4.0",
   "org.scalameta"     %% "munit"         % "0.7.29" % Test
 )
@@ -53,7 +53,8 @@ nativeImageOptions ++= List(
   "--initialize-at-run-time=scala.util.Random$",
   "--initialize-at-build-time=scala.runtime.Statics$VM"
 )
-nativeImageVersion := "21.2.0"
+nativeImageJvm := "graalvm-java17"
+nativeImageVersion := "22.3.1"
 nativeImageAgentOutputDir := (Compile / resourceDirectory).value / "META-INF" / "native-image" / organization.value / name.value
 
 enablePlugins(JavaAppPackaging)
