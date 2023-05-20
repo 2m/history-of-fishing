@@ -48,9 +48,9 @@ object History {
   val Padding = Entry("", 0, List())
   val EndOfFile = "end-of-file"
 
-  val Cmd = some[State] composeLens GenLens[State](_.cmd)
-  val When = some[State] composeLens GenLens[State](_.when)
-  val Paths = (some[State] composeLens GenLens[State](_.paths)).asTraversal
+  val Cmd = some[State] andThen GenLens[State](_.cmd)
+  val When = some[State] andThen GenLens[State](_.when)
+  val Paths = (some[State] andThen GenLens[State](_.paths)).asTraversal
 
   private def parser =
     () => {
@@ -63,10 +63,10 @@ object History {
           case s"- cmd: $cmd" =>
             val entry = stateToEntry
             state = Some(State())
-            state = Cmd.set(Some(cmd))(state)
+            state = Cmd.replace(Some(cmd))(state)
             entry
           case s"  when: $when" =>
-            state = When.set(Some(when.toInt))(state)
+            state = When.replace(Some(when.toInt))(state)
             Iterable.empty
           case s"    - $path" =>
             state = Paths.modify(_ :+ path)(state)
