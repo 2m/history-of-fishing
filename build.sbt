@@ -13,7 +13,7 @@ libraryDependencies ++= Seq(
   "dev.optics"        %% "monocle-core"  % Monocle,
   "dev.optics"        %% "monocle-macro" % Monocle,
   "com.monovore"      %% "decline"       % "2.4.1",
-  "org.typelevel"     %% "cats-effect"   % "3.5.0",
+  "org.typelevel"     %% "cats-effect"   % "3.5.1",
   "com.lihaoyi"       %% "fansi"         % "0.4.0",
   "org.scalameta"     %% "munit"         % "0.7.29" % Test
 )
