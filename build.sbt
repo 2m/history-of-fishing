@@ -5,7 +5,7 @@ description := "Tools for working with history files of fish shell"
 scalaVersion := "2.13.10"
 
 val Akka = "2.6.20"
-val Monocle = "3.2.0"
+val Monocle = "3.3.0"
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor"    % Akka,
